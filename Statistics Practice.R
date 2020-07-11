@@ -111,7 +111,83 @@ sum(d) # calculate the sum of d
 length(d) # display the length of d
 t(d) # transpose d, the result is a row vector
 t(d)%*%e # scalar product between the row vector t(b) and the column vector e with identical length
-t(d)
+t(d)*e # elementwise product between two vectors with identical lengths
+g = c(sqrt(2),log(10)) #build the numeric vector g of dimension 2 and elements p2, log(10)
+e[d==5] # build the subvector of e that contains the components e[i] such that d[i]=5
+a[-3] # create the subvector of a that contains all components of a but the third.
+is.vector(d) # display the logical expression TRUE if a vector and FALSE else
+
+remove(e)
+
+e=gamma(e^2)
+log(e)
+
+# Exercise 1.3
+
+help(help)
+
+# help(topic, package = NULL, lib.loc = NULL,
+#      verbose = getOption("verbose"),
+#      try.all.packages = getOption("help.try.all.packages"),
+#      help_type = getOption("help_type"))
+
+help("seq") # Generates regular sequences
+help("sample") # Takes a sample of the specified size from the elements of x using either with or without replacement
+help("order") # Returns a permutation which rearranged its first argument into ascenng order, breaking ties by further arguements. sort.list does the same, using only one arguement.
+
+# Exercise 1.4
+
+# Explain the difference between order and rank. See link for help: "https://towardsdatascience.com/r-rank-vs-order-753cc7665951"
+help(rank) # Returns the sample ranks of the values in a vector.
+
+# Sort actully sorts the data in increasing order.
+# Rank gives the possition of that value when that vector is a sorted vector.  Note that it just lists it, and sort() actully does it.
+# Order returns the position of the original value and is in the order of sorted sequence, that is smallest value to largest value.
+
+a = c(5, 5.6, 1, 4, -5)
+b = sort(a) # Actully rearenges the values in increasing order from top to bottom
+c = order(a) # 
+d = rank(a)
+e = cbind(a,b,c,d) # Careful with merge() and join()
+
+View(e)
+
+help("rep") 
+
+f = rep(a) # Replicates elements of vectors and lists
+g = rep(a, times = 3) # Replicates the elements of the object the number of times specified
+h = rep(a, length.out = 3) # Replicates the object to the specified length starting from the firt element
+i = rep(a, each = 3) # Replicates each element in the vector how ever many times specified.
+
+j = cbind(a,f,g,h,i) # Note that you need to be careful with the cbind!  
+                     # It will just fill in values for the column it is getting comninded with
+k = rbind(a,f,g,h,i) # Row bind: combines each row and puts it into a column.  This is a clever way to transpose.
+View(j)
+View(k)
+
+help("cbind") # Note that cbind() just automatically fills the empty columns with elements rather than applying NAs.
+
+# The names() function
+
+help("names")
+l = names(j)
+View(l) # Weird...
+
+# Let
+n = 100
+m = c(1:n-1) # Interpreted as (1:n)-1 where there are 100 elements in the sequence
+o = seq(1, n-1, by = 1) # 
+
+View(m)
+
+p = c(3:1) # is equal to c(3,2,1)
+View(p)
+
+## 1.3.2 The Matrix, Array, and Factor classes
+
+
+
+
 
 
 
