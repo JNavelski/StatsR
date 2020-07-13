@@ -184,10 +184,106 @@ p = c(3:1) # is equal to c(3,2,1)
 View(p)
 
 ## 1.3.2 The Matrix, Array, and Factor classes
+# 
+# The matrix class provides the R representation of matrices.
+help("matrix")
 
+n = 100
+p = 10
+vec = c(NA) # Note that we need to define an object first befor we use it to turn it into a matrix.  Notice that the matrix is full of the logical oparator NA though.
+View(vec)
+vec = c(1:n) # Note we can create a vector of the same length of the matrix, and then make the matrix using this vector.  Notice we now hava a matrix of integers.
+View(vec) 
+x = matrix(vec, nrow = n, ncol = p)
+# x = matrix(c(NA), nrow = n, ncol = p) # Different way of doing it.  Notice that we still need a vector to form the matrix from.
+View(x)
 
+matrix(1:4, nrow = 2, ncol = 3) # Note the warning message received even though the matrix was created.
 
+# How to see different elements in the matrix
 
+x
+x[82,5]
+vec[82] # Note that they are the same
+
+i = 10
+j = 5
+
+x[i,j] = x[i+n*(j-1)]
+x[i,j]
+y = x[x>5] # Basically, notice how we lose 50 elements, and create and entire new vector of interegers.
+y
+
+z = x[1,] # Returns a vector of the first row of the matrix.
+View(z)
+
+# Matrix Operations (i.e. multipication, crossproduct, etc.)
+# The standard matrix product is denoted by %*%, while * represents the term-by-term product.
+
+A = matrix(1:10, nrow = 5, ncol = 4) # Produces a 5 by 4 matrix
+B = matrix(2:11, nrow = 5, ncol = 4) # Produces a 5 by 4 matrix
+
+View(A)
+View(B)
+# Term by term product
+C = A*B # Gives a matrix of integers where each element is multiplied by the coresponding element in that matrix.
+A
+B
+C
+
+B = t(B) # Transpose object B
+B
+C = A%*%B # The Standard Matrix product.  Note that we have to transpose B to make it a conformable operation.
+
+# Notice that we can also use the crossproduct() function
+B = t(B)
+# Where the first element will be the on transposed
+t(A)%*%B
+crossprod(A,B)
+# AND
+t(B)%*%A
+crossprod(B,A) # where these two operations are equivilent s.t. t(A)%*%B = t(B)%*%A or
+# crossproduct(A,B) = crossproduct(B,A)
+D = crossprod(1:10^6,1:10^6)
+E = c(1:10^6) # Makes an increasing integer vector
+G = c(1:10^6) 
+system.time(t(E)%*%G)
+system.time(crossprod(1:10^6,1:10^6))
+# Note the difference in time elapsed.
+
+# Fig. 1.2 Illustrations of the processing of matracies in R
+
+x1 = matrix(1:20, nrow = 5) # Build the numeric matrix x1 of dimension 5x4 with first row 1, 6, 11, 16
+x2 = matrix(1:20, nrow = 5, byrow = TRUE) # Build the numeric matrix x2 of dimension 5 ⇥ 4 with first row 1, 2, 3, 4... says to build it across rows.
+x1
+x2
+x3 = t(x2) # Transpose matrix x2 and define object as x3
+a = x3%*%x2 # Matrix summation of x2.  Note this also equals t(x2)%*%x2, which also equals crossproduct(x2,x2)
+c = x1*x2 # Term-by-term product between x1 and x2.
+c
+d = dim(x1)
+View(d)
+a[,2] # Select the second column of a
+a[c(3,4),] # Select the third and forth rows of a
+a[-2,] # Delete the second row of a
+rbind(x1,x2) # Verticle merging of x1 and x2
+cbind(x1,x2) # Horizontal merging of x1 and x2
+apply(x1,1,sum) # Calculate the sum of each row of x1.  Essentilly, apply() applies the funtion you want to the specified rows that you want
+help(apply)
+apply(x1,2, sum) # Calculate the sum of each column of x1.
+
+as.matrix(1:10) # Turn the vector 1:10 into a 10x1 matrix.  This is usuful for formating the data.
+
+# Let,
+w1 = c(1:10)
+w1 # Notice this is a vector.
+w2 = as.matrix(w)
+w2 # Notice this becomes a matrix.
+View(w1)
+View(w2) # Note how the vector names change, and that there is now a V1 intead of the variable name being the vector dimensions.
+# Changing is back
+w3 = w2[,1]
+w3
 
 
 
