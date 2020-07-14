@@ -185,7 +185,7 @@ View(p)
 
 ## 1.3.2 The Matrix, Array, and Factor classes
 # 
-# The matrix class provides the R representation of matrices.
+# The MATRIX class provides the R representation of matrices.
 help("matrix")
 
 n = 100
@@ -284,6 +284,58 @@ View(w2) # Note how the vector names change, and that there is now a V1 intead o
 # Changing is back
 w3 = w2[,1]
 w3
+
+diag(a) # Returns the diagonal elements of matrix.  VERY USEFUL!
+diag(1:10) # Creates a diagonal matrix with given elements
+## IMPORTANT! ##
+diag(x = 1, nrow = 100, ncol = 100) # Creates a 100x100 idenity matrix.
+
+library(base)
+
+m = matrix(1:10, nrow = 10, ncol = 10)
+View(m)
+
+chol(m) # Returns the upper triangulat factor of the Choleski decomposition of m
+eigen(m) # Returns the eigen values and eigen vectors of a square matrix
+solve(m) # Need to understand more...
+
+# The ARRAY class provides the R representation of arrays.
+
+x = array(1:50, dim = c(2,5,5)) # Uses the data  to create 5 matracies, each with the dimension of 2x5
+View(x)
+x # Notice that the array has three different dimiensions now.  Rows, Columns, and now 
+
+# The apply function used in Figure 1.2 is a very powerful device that operates 
+# on arrays and, in particular, matrices. Since it can return arrays, it bypasses 
+# calls to multiple loops and makes for (sometimes) quicker and (always) cleaner 
+# programs. It should not be considered as a panacea, however, as apply hides 
+# calls to loops inside a single command. For instance, a comparison of 
+# apply(A, 1, mean) with rowMeans(A) shows the second version is about 200 times 
+# faster. Using linear algebra whenever possible is therefore a more effcient solution.
+
+# The FACTOR class provides the R representation of arrays.
+
+# A factor is a vector of characters or integers used to specify a 
+# discrete classification of the components of other vectors with the same length. 
+# Its main di↵erence from a standard vector is that it comes with a level attribute 
+# used to specify the possible values of the factor.
+
+# Good for qualatative variables.
+
+state = c("tas","tas","sa","sa","wa") # Create a vector with five values
+state
+statef = factor(state) # Distinguish entries by group.
+statef
+levels(statef) # Give the groups.
+incomes=c(60, 59, 40, 42, 23) # Create a vector of incomes.
+tapply(incomes, statef, mean) # Average the incomes for each group.
+statef = factor(state, levels=c("tas","sa","wa","yo")) # Define a new level with one more group than observed.
+table(statef) # Return statistics for all levels.
+
+
+
+
+
 
 
 
