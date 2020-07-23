@@ -288,7 +288,7 @@ w3
 diag(a) # Returns the diagonal elements of matrix.  VERY USEFUL!
 diag(1:10) # Creates a diagonal matrix with given elements
 ## IMPORTANT! ##
-diag(x = 1, nrow = 100, ncol = 100) # Creates a 100x100 idenity matrix.
+diag(x = 1, nrow = 100, ncol = 100) # Creates a 100x100 identity matrix.
 
 library(base)
 
@@ -332,7 +332,127 @@ tapply(incomes, statef, mean) # Average the incomes for each group.
 statef = factor(state, levels=c("tas","sa","wa","yo")) # Define a new level with one more group than observed.
 table(statef) # Return statistics for all levels.
 
+## 1.3.3 The List and Data.frame classes
 
+# A list in R is a rather loose object made of a collection of other arbitrary objects
+# known as "components".  For instance, a list can be derived from n existing onjects using the
+# function:
+
+a = list(name_1=object_1, ... , name_n=onject_n)
+
+# Lists are very usedful in preserving information abot the values of variables used within
+# R funtions in the sense that all relvent values can be put within a list that is the output
+# of the corresponding function.
+
+li = list(num = 1:5, y = "color", a = TRUE) # Create a list with three arguments
+li
+
+# Fig. 1.4 Chosen features of the list class
+
+a = matrix(c(6, 2, 0 , 2, 6, 0, 0, 0, 36), nrow = 3) # Create a (3,3) matrix
+a
+res = eigen(a, symmetric = TRUE) # diagonalize a and produce a list wth two argumnts: vectors and values
+res
+names(res) # gives the names of the arguemnts in the list
+
+res$vectors # returns the called vector on the list res
+
+diag(res$values) # create a diagonal matrix using the eigenvalues
+
+res$vec%*%diag(res$val)%*%t(res$vec) # Returns our initial matrix a using the eigenvalues and eigenvectors of a
+
+# The local version of apply is lapply, which computes a function for each argument of the list
+
+x = list(a = 1:10, beta = exp(-3:3), logic = c(TRUE, FALSE, FALSE, TRUE))
+lapply(x,mean) # compute the empirical means
+# A user friendly version of lapply is
+
+sapply(x,mean)
+
+# A data frame is a list whose elements are possibly made of differeing modes and attributes,
+# but have the same length. as in the example provided in Figure 1.5.  A data frame can be displayed in matrix form, 
+# and its rows and columns can be extracted using matrix indexing conventions. A list whose components 
+# satisfy the restrictions imposed on a data frame can be coerced into a data frame using the function as.data.frame. 
+# The main purpose of this object is to import data from an external file by using the read.table function.
+
+# Fig. 1.5 Definition of a data frame
+
+v1 = sample(1:12, 30, rep = TRUE) # Simulate 30 independent unifrom random variables on {1, 2, ... , 12}
+v1                                # Note that this is a vector!
+v2 = sample(LETTERS[1:10], 30, rep = TRUE) # Simulate 30 independent uniform random variables on {a, b, ..., j}
+v2
+v3 = runif(30) # Simulate 30 indep. uniform RVs on [0,1]
+v3
+v4 = rnorm(30, mean = 0, sd = 1) # Simulate 30 indep. realizations from a standard normal distribution
+v4
+
+xx = data.frame(v1, v2, v3, v4) # CREATE DATA FRAME! :}
+xx
+View(xx)
+
+
+## 1.4 Probability Distributions in R
+
+# A “core” name, such as norm, is associated with each distribution, 
+# and the four basic associated functions, namely the cdf, the pdf, 
+# the quantile function, and the simulation procedure, 
+# are defined by appending the prefixes d, p, q, and r to the core name, 
+# such as dnorm, pnorm, qnorm, and rnorm.
+
+# Exercise 1.6 - Study the properties of the reslm() function using simulated data
+
+n = 20
+x = rnorm(n) # Simulate 30 indep. realizations from a std. norm. distribution
+x_bar = sum(x)/n
+x_bar
+y = 3*x+5+rnorm(n, sd = 0.3)
+y_bar = sum(y)/n
+y_bar
+mean(y)
+
+# Regaression
+reslm = lm(y~x)
+summary(reslm)
+
+# Basic Descriptive Statistics
+
+mean(x)
+var(x) # Note that (n-1) is used in the denominator in order to ensure unbiasedness
+sd(x)
+median(x)
+quantile(x)
+
+help("var")
+
+# When the basic descriptive statistic functions are used on a matrix, the output from var(x)
+# differs from the output of sd(x)^2
+
+b = matrix(1:9, ncol= 3)
+b
+var(b)
+sd(b)^2
+
+# Classical hypothesis tests, such as the equality of two means or the equality of two
+# variances, can be conducted using standard functions.
+
+help.search("test")
+
+######
+# Hypothesis Test Example - Checking that the mean of a normal sample with unknown variance is zero
+# can be conducted using a t-test (Casella and Berger, 2001)
+######
+
+# H_0 : mu = 0
+# H_A : mu != 0
+
+x = rnorm(25) # Produced a N(0,1) sample size of 25
+t.test(x)
+mean(x)
+
+# Note that since the p-value is not less than .05, that we can reject the null and conclude that
+# the mu is significantly different than zero.
+
+help("t.test")
 
 
 
