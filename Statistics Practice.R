@@ -446,17 +446,72 @@ help.search("test")
 # H_A : mu != 0
 
 x = rnorm(25) # Produced a N(0,1) sample size of 25
-t.test(x)
+t=t.test(x)
+print(t)
 mean(x)
-
+t
 # Note that since the p-value is not less than .05, that we can reject the null and conclude that
 # the mu is significantly different than zero.
 
 help("t.test")
 
+# The presence of corralation between two variables can be tested
+help("cor.test")
+
+attach(faithful)
+View(faithful)
+
+cor.test(faithful[,1],faithful[,2])
+
+# Non-parametric tests
+# 1) One-sample and two-sample Kolmogorov–Smirnov adequation tests - Did the data come from a normal distribution?
+help("ks.test")
+ks.test(jitter(faithful[,1]),pnorm)
+
+# 2) Shapiro’s normality test
+help("shapiro.test")
+shapiro.test(faithful[,2])
+
+# 3) Kruskall–Wallis homogeneity test
+help("kruskal.test")
+kruskal.test(faithful[,1], faithful[,2])
+
+# 4) Wilcoxon rank tests
+help("wilcox.test")
+wilcox.test(faithful[,1])
+
+# Non-parametric Kernal Density Estimates - Natural Splines and Loess
+
+Nit = c(0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,6,6,6)
+AOB =c(4.26,4.15,4.68,6.08,5.87,6.92,6.87,6.25,6.84,6.34,6.56,6.52,7.39,7.38,7.74,7.76,8.14,7.22)
+print(AOB)
+
+AOBm=tapply(AOB,Nit,mean) #means of AOB
+AOBm
+Nitm=tapply(Nit,Nit,mean) #means of Nit
+Nitm
+
+library(splines)
+
+plot(Nit,AOB,xlim=c(0,6),ylim=c(min(AOB),max(AOB)),pch=19)
+fitAOB=lm(AOBm~ns(Nitm,df=2)) #natural spline
+xmin=min(Nit)
+xmax=max(Nit)
+lines(seq(xmin,xmax,.5), predict(fitAOB,data.frame(Nitm=seq(xmin,xmax,.5)))) #fit to means
+fitAOB2=loess(AOBm~Nitm,span = 1.25) #loess
+lines(seq(xmin,xmax,.5), predict(fitAOB2,data.frame(Nitm=seq(xmin,xmax,.5)))) #fit to means 
+fitAOB2=loess(AOBm~Nitm,span = 1.5) #loess
+lines(seq(xmin,xmax,.5), predict(fitAOB2,data.frame(Nitm=seq(xmin,xmax,.5)))) #fit to means 
+fitAOB2=loess(AOBm~Nitm,span = 2) #loess
+lines(seq(xmin,xmax,.5), predict(fitAOB2,data.frame(Nitm=seq(xmin,xmax,.5)))) #fit to means 
 
 
+x=seq(-3,3,le=5) # equidispersed regressor
+y=2+4*x+rnorm(5) # simulated variable
+lm(y~x)
+summary = summary(lm(y~x))
 
-
+plot(x,y)
+lines(x,y)
 
 
